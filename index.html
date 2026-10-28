@@ -72,7 +72,7 @@ img,svg{max-width:100%}
     <h2>CERTIFICATE OF ACHIEVEMENT</h2>
     <p class="mut">This is proudly presented to</p>
     <div class="nm" id="cn"></div>
-    <p>for assembling all <b style="color:var(--cy)">6 cyber vehicles</b> (48 parts) in <b style="color:var(--yl)" id="ct"></b> seconds.<br>Rank: Cyber Assembly Champion</p>
+    <p>for assembling <b style="color:var(--cy)" id="cv"></b> (<span id="cp"></span> parts) in <b style="color:var(--yl)" id="ct"></b> seconds.<br>Rank: <b style="color:var(--mg)" id="rk"></b></p>
     <div class="sig">Samiya</div>
     <div class="mut">Certified by Samiya</div>
     <div class="dis">Disclaimer: This certificate is not real, for dummy purpose only.</div>
@@ -100,7 +100,7 @@ function beep(f,d=.1,t='square'){try{const c=ctx(),o=c.createOscillator(),g=c.cr
 function clap(){try{const c=ctx();for(let n=0;n<45;n++){const t=c.currentTime+n*.09+Math.random()*.06,len=c.sampleRate*.05,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=1200+Math.random()*1800;const g=c.createGain();g.gain.value=.5+Math.random()*.5;s.connect(f).connect(g).connect(c.destination);s.start(t)}}catch(e){}}
 let order,vi,slots,sel,left,timer,t0,pname,tray;
 $('go').onclick=()=>{pname=$('name').value.trim()||'Champion';ctx();order=sh(Object.keys(V));vi=0;t0=Date.now();$('start').classList.add('hide');$('game').classList.remove('hide');load();timer=setInterval(tick,250)};
-function tick(){left=Math.max(0,120-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/120*100+'%';if(left<20)$('fill').style.background='#ff2255';if(left<=0){clearInterval(timer);$('game').classList.add('hide');$('over').classList.remove('hide');$('ovt').textContent='Vehicles completed: '+vi+' of 6. Try again!';beep(120,.5,'sawtooth')}}
+function tick(){left=Math.max(0,120-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/120*100+'%';if(left<20)$('fill').style.background='#ff2255';if(left<=0){clearInterval(timer);if(vi>=1){cert(vi,'120.0');return}$('game').classList.add('hide');$('over').classList.remove('hide');$('ovt').textContent='Vehicles completed: '+vi+' of 6. Try again!';beep(120,.5,'sawtooth')}}
 function load(){const k=order[vi];slots=Array(8).fill(null);sel=null;$('vn').textContent=k;$('prog').textContent=(vi+1)+'/6';$('ref').innerHTML=full(k);draw(sh([0,1,2,3,4,5,6,7]))}
 function draw(t){if(t)tray=t;const k=order[vi];
 $('board').innerHTML='';slots.forEach((v,i)=>{const d=document.createElement('div');d.className='slot';d.innerHTML=v===null?i+1:part(k,v);d.onclick=()=>place(i,d);$('board').appendChild(d)});
@@ -109,5 +109,6 @@ function place(i,el){if(sel===null||slots[i]!==null)return;
 if(sel===i){slots[i]=sel;tray=tray.filter(p=>p!==sel);sel=null;beep(760);draw();
 if(slots.every(v=>v!==null)){setTimeout(()=>{beep(980,.2,'sine');vi++;if(vi>=6)finish();else load()},450)}}
 else{el.classList.add('shake');beep(160,.15,'sawtooth')}}
-function finish(){clearInterval(timer);const s=((Date.now()-t0)/1000).toFixed(1);$('game').classList.add('hide');$('win').classList.remove('hide');$('cn').textContent=pname;$('ct').textContent=s;clap()}
+function finish(){clearInterval(timer);cert(6,((Date.now()-t0)/1000).toFixed(1))}
+function cert(n,s){$('game').classList.add('hide');$('win').classList.remove('hide');$('cn').textContent=pname;$('cv').textContent=n===6?'all 6 cyber vehicles':(n===1?'1 cyber vehicle':n+' cyber vehicles');$('cp').textContent=n*8;$('ct').textContent=s;$('rk').textContent=['','Cyber Rookie','Rising Technician','Rising Technician','Elite Engineer','Elite Engineer','Cyber Assembly Champion'][n];clap()}
 </script></body></html>
