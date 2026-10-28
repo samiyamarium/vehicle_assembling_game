@@ -11,7 +11,7 @@ body{margin:0;color:var(--tx);font-family:Orbitron,"Segoe UI",system-ui,sans-ser
 background:linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px) 0 0/32px 32px,linear-gradient(90deg,rgba(255,43,214,.05) 1px,transparent 1px) 0 0/32px 32px,radial-gradient(circle at 50% 0,#14204a,var(--bg) 60%)}
 .row{display:flex;gap:10px;align-items:flex-start}.row .card{flex:0 0 38%;margin:0;padding:8px}.row .board{flex:1}
 .wrap{max-width:640px;margin:0 auto;padding:14px}
-h1{font-size:1.25rem;margin:8px 0;letter-spacing:3px;color:var(--cy);text-shadow:0 0 10px var(--cy),0 0 24px var(--mg)}
+h1{font-size:clamp(1rem,4.5vw,1.6rem);margin:8px 0;letter-spacing:3px;color:var(--cy);text-shadow:0 0 10px var(--cy),0 0 24px var(--mg)}
 h1 span{color:var(--mg)}
 .card{background:var(--card);border:1px solid var(--cy);border-radius:4px;padding:12px;margin:10px 0;box-shadow:0 0 12px rgba(0,240,255,.25),inset 0 0 20px rgba(0,240,255,.05);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
 button{background:transparent;color:var(--cy);border:2px solid var(--cy);padding:12px 26px;font:700 .95rem Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 12px var(--cy),inset 0 0 12px rgba(0,240,255,.3)}
@@ -34,21 +34,28 @@ input{padding:10px;border:1px solid var(--mg);background:#000;color:var(--yl);fo
 p{font-size:.85rem;line-height:1.6;font-family:system-ui,sans-serif}
 .cert{background:linear-gradient(135deg,#0a1230,#16062e);border:3px solid var(--cy);padding:22px 14px;box-shadow:0 0 22px var(--cy),0 0 40px rgba(255,43,214,.4),inset 0 0 30px rgba(0,240,255,.15);outline:2px solid var(--mg);outline-offset:-10px}
 .cert h2{font-size:1.15rem;margin:6px 0;letter-spacing:3px;color:var(--cy);text-shadow:0 0 10px var(--cy)}
-.nm{font-family:"Dancing Script","Brush Script MT",cursive;font-size:2.2rem;color:var(--yl);text-shadow:0 0 10px var(--yl);border-bottom:1px solid var(--mg);display:inline-block;padding:0 16px;margin:8px 0}
-.sig{font-family:"Dancing Script","Brush Script MT",cursive;font-size:2rem;margin-top:12px;color:var(--mg);text-shadow:0 0 8px var(--mg)}
+.nm{font-family:"Dancing Script","Brush Script MT",cursive;font-size:clamp(1.6rem,7vw,2.4rem);color:var(--yl);text-shadow:0 0 10px var(--yl);border-bottom:1px solid var(--mg);display:inline-block;padding:0 16px;margin:8px 0}
+.sig{font-family:"Dancing Script","Brush Script MT",cursive;font-size:clamp(1.5rem,6vw,2.1rem);margin-top:12px;color:var(--mg);text-shadow:0 0 8px var(--mg)}
 .dis{font-size:.65rem;font-style:italic;margin-top:16px;color:var(--mut);border-top:1px solid #2a3a6a;padding-top:8px;font-family:system-ui,sans-serif}
+body{-webkit-tap-highlight-color:transparent}
+button{min-height:44px;touch-action:manipulation}
+.slot,.pc{touch-action:manipulation;user-select:none;-webkit-user-select:none}
+img,svg{max-width:100%}
+@media(min-width:900px){.wrap{max-width:920px}.row .card{flex-basis:42%}.pc{width:calc(12.5% - 6px)}.hud{font-size:1.1rem}.card{padding:16px}}
+@media(max-width:420px){.wrap{padding:10px}.row{flex-direction:column}.row .card{flex:none;width:100%}.ref{width:75%}.cert{padding:18px 10px}}
+@media(max-height:500px) and (orientation:landscape){.wrap{max-width:100%}.row .card{flex-basis:34%}.pc{width:calc(12.5% - 6px)}.card{margin:6px 0}}
 </style></head><body><div class="wrap">
 <h1>CYBER<span>//</span>ASSEMBLY</h1>
 
 <div id="start" class="card">
-  <p>Assemble <b style="color:var(--mg)">6 modern vehicles</b>, each split into <b style="color:var(--mg)">8 parts</b>, before the <b style="color:var(--yl)">60-second</b> clock hits zero.</p>
+  <p>Assemble <b style="color:var(--mg)">6 modern vehicles</b>, each split into <b style="color:var(--mg)">8 parts</b>, before the <b style="color:var(--yl)">2-minute</b> clock hits zero.</p>
   <p class="mut">Tap a part, then tap its slot. Use the hologram reference. Parts and vehicle order are randomized every run.</p>
   <input id="name" placeholder="ENTER NAME" maxlength="24"><br><br>
   <button id="go">Initiate</button>
 </div>
 
 <div id="game" class="hide">
-  <div class="hud"><span id="vn">HYPERCAR</span><span id="prog">1/6</span><span id="tm">60s</span></div>
+  <div class="hud"><span id="vn">HYPERCAR</span><span id="prog">1/6</span><span id="tm">120s</span></div>
   <div class="bar"><div id="fill"></div></div>
   <div class="row">
     <div class="card"><div class="mut">Reference</div><div class="ref" id="ref"></div></div>
@@ -93,7 +100,7 @@ function beep(f,d=.1,t='square'){try{const c=ctx(),o=c.createOscillator(),g=c.cr
 function clap(){try{const c=ctx();for(let n=0;n<45;n++){const t=c.currentTime+n*.09+Math.random()*.06,len=c.sampleRate*.05,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=1200+Math.random()*1800;const g=c.createGain();g.gain.value=.5+Math.random()*.5;s.connect(f).connect(g).connect(c.destination);s.start(t)}}catch(e){}}
 let order,vi,slots,sel,left,timer,t0,pname,tray;
 $('go').onclick=()=>{pname=$('name').value.trim()||'Champion';ctx();order=sh(Object.keys(V));vi=0;t0=Date.now();$('start').classList.add('hide');$('game').classList.remove('hide');load();timer=setInterval(tick,250)};
-function tick(){left=Math.max(0,60-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/60*100+'%';if(left<15)$('fill').style.background='#ff2255';if(left<=0){clearInterval(timer);$('game').classList.add('hide');$('over').classList.remove('hide');$('ovt').textContent='Vehicles completed: '+vi+' of 6. Try again!';beep(120,.5,'sawtooth')}}
+function tick(){left=Math.max(0,120-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/120*100+'%';if(left<20)$('fill').style.background='#ff2255';if(left<=0){clearInterval(timer);$('game').classList.add('hide');$('over').classList.remove('hide');$('ovt').textContent='Vehicles completed: '+vi+' of 6. Try again!';beep(120,.5,'sawtooth')}}
 function load(){const k=order[vi];slots=Array(8).fill(null);sel=null;$('vn').textContent=k;$('prog').textContent=(vi+1)+'/6';$('ref').innerHTML=full(k);draw(sh([0,1,2,3,4,5,6,7]))}
 function draw(t){if(t)tray=t;const k=order[vi];
 $('board').innerHTML='';slots.forEach((v,i)=>{const d=document.createElement('div');d.className='slot';d.innerHTML=v===null?i+1:part(k,v);d.onclick=()=>place(i,d);$('board').appendChild(d)});
