@@ -26,9 +26,9 @@ input{padding:10px;border:1px solid var(--mg);background:#000;color:var(--yl);fo
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--cy);padding:3px;box-shadow:0 0 14px var(--cy)}
 .slot{aspect-ratio:1;background:#060b1c;cursor:pointer;overflow:hidden;font-size:1rem;color:#27406e;display:flex;align-items:center;justify-content:center}
 .slot:hover{background:#0c1838}
-.tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:90px}
-.pc{width:calc(25% - 6px);aspect-ratio:1;border:2px solid #2a4a8a;overflow:hidden;cursor:pointer;background:#060b1c}
-.pc.sel{border-color:var(--yl);transform:scale(1.08);box-shadow:0 0 14px var(--yl)}
+.tray{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--mg);padding:3px;box-shadow:0 0 14px var(--mg);min-height:90px}
+.pc{width:100%;aspect-ratio:1;border:2px solid #2a4a8a;overflow:hidden;cursor:pointer;background:#060b1c}
+.pc.sel{border-color:var(--yl);transform:scale(1.08);box-shadow:0 0 14px var(--yl);z-index:2}
 .shake{animation:sh .3s;outline:2px solid #ff2255}@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .hide{display:none}.mut{color:var(--mut);font-size:.75rem;letter-spacing:1px;text-transform:uppercase}
 p{font-size:.85rem;line-height:1.6;font-family:system-ui,sans-serif}
@@ -41,9 +41,9 @@ body{-webkit-tap-highlight-color:transparent}
 button{min-height:44px;touch-action:manipulation}
 .slot,.pc{touch-action:manipulation;user-select:none;-webkit-user-select:none}
 img,svg{max-width:100%}
-@media(min-width:900px){.wrap{max-width:920px}.row .card{flex-basis:42%}.pc{width:calc(12.5% - 6px)}.hud{font-size:1.1rem}.card{padding:16px}}
+@media(min-width:900px){.wrap{max-width:920px}.row .card{flex-basis:42%}.card{padding:16px}}
 @media(max-width:420px){.wrap{padding:10px}.row{flex-direction:column}.row .card{flex:none;width:100%}.ref{width:75%}.cert{padding:18px 10px}}
-@media(max-height:500px) and (orientation:landscape){.wrap{max-width:100%}.row .card{flex-basis:34%}.pc{width:calc(12.5% - 6px)}.card{margin:6px 0}}
+@media(max-height:500px) and (orientation:landscape){.wrap{max-width:100%}.row .card{flex-basis:34%}.card{margin:6px 0}}
 </style></head><body><div class="wrap">
 <h1>CYBER<span>//</span>ASSEMBLY</h1>
 
@@ -76,7 +76,7 @@ img,svg{max-width:100%}
     <p>for assembling <b style="color:var(--cy)" id="cv"></b> (<span id="cp"></span> parts) in <b style="color:var(--yl)" id="ct"></b> seconds.<br>Rank: <b style="color:var(--mg)" id="rk"></b></p>
     <div class="sig">Samiya</div>
     <div class="mut">Certified by Samiya</div>
-    <div class="dis">Disclaimer: This certificate is not real, for fun purpose only!! </div>
+    <div class="dis">Disclaimer: This certificate is not real, for dummy purpose only.</div>
   </div>
   <br><button onclick="location.reload()">Play Again</button>
 </div>
@@ -91,7 +91,7 @@ HYPERCAR:`<path d="M25 148 L25 128 L60 118 L135 102 L172 70 Q186 62 215 62 L265 
 SUPERBIKE:`${wheel(92,138,40)}${wheel(312,138,40)}<path d="M92 138L160 100L235 112L312 138M300 96L312 138" stroke="${C}" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M170 88Q230 56 300 90L322 102L286 122L190 120Z" fill="${M}" stroke="${C}" stroke-width="3"/><path d="M110 92L180 84L186 100L108 104Z" fill="${B}" stroke="${C}" stroke-width="3"/><rect x="168" y="120" width="62" height="32" fill="${B}" stroke="${Y}" stroke-width="3"/><path d="M135 124L70 152" stroke="${Y}" stroke-width="6"/><path d="M292 80L322 76" stroke="${C}" stroke-width="5"/><circle cx="322" cy="104" r="8" fill="${Y}"/>`,
 MAGLEV:`<rect y="150" width="400" height="8" fill="${M}"/><path d="M0 158H400" stroke="${C}" stroke-width="2"/><path d="M10 148V92Q10 70 40 66L300 58Q372 62 394 118V148Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M300 70Q352 76 372 112L300 112Z" fill="${G}" stroke="${C}" stroke-width="2"/><rect x="26" y="80" width="64" height="26" fill="${G}" stroke="${C}"/><rect x="104" y="78" width="64" height="26" fill="${G}" stroke="${C}"/><rect x="182" y="76" width="64" height="26" fill="${G}" stroke="${C}"/><path d="M10 122H392" stroke="${M}" stroke-width="4"/><path d="M96 70V148M174 68V148M252 66V148" stroke="${C}" stroke-width="1.5"/><rect x="380" y="124" width="12" height="6" fill="${Y}"/><rect x="40" y="140" width="320" height="6" fill="${Y}" opacity=".7"/>`,
 "STEALTH JET":`<path d="M190 96L292 96L150 24L118 24Z M190 114L292 114L150 186L118 186Z" fill="#1b2a6b" stroke="${M}" stroke-width="3"/><path d="M42 102L92 96L62 46L34 46Z" fill="#1b2a6b" stroke="${M}" stroke-width="3"/><path d="M20 105L130 92L300 88Q380 95 390 105Q380 115 300 120L130 118Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M318 97Q350 94 364 103L318 103Z" fill="${C}"/><path d="M60 105H300" stroke="${M}" stroke-width="2"/><ellipse cx="108" cy="82" rx="26" ry="7" fill="${B}" stroke="${Y}" stroke-width="2"/><ellipse cx="108" cy="128" rx="26" ry="7" fill="${B}" stroke="${Y}" stroke-width="2"/><circle cx="18" cy="105" r="9" fill="${Y}"/><path d="M0 105H10" stroke="${Y}" stroke-width="3"/>`,
-HYDROFOIL:`<rect y="146" width="400" height="54" fill="#09285a"/><path d="M0 150Q20 142 40 150T80 150T120 150T160 150T200 150T240 150T280 150T320 150T360 150T400 150" stroke="${C}" stroke-width="2" fill="none"/><path d="M28 112H372L346 146H60Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M118 112L150 76H284L312 112Z" fill="${G}" stroke="${M}" stroke-width="3"/><rect x="164" y="86" width="110" height="14" fill="${C}" opacity=".8"/><path d="M216 76V40" stroke="${C}" stroke-width="3"/><ellipse cx="216" cy="38" rx="22" ry="5" fill="none" stroke="${Y}" stroke-width="3"/><path d="M120 146V172H170M296 146V172H346" stroke="${Y}" stroke-width="5" fill="none"/><path d="M28 124H372" stroke="${M}" stroke-width="3"/><rect x="355" y="112" width="14" height="6" fill="${Y}"/>`};
+HYDROFOIL:`<rect y="146" width="400" height="54" fill="#09285a"/><path d="M0 150Q20 142 40 150T80 150T120 150T160 150T200 150T240 150T280 150T320 150T360 150T400 150" stroke="${C}" stroke-width="2" fill="none"/><path d="M28 112H372L346 146H60Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M118 112L150 76H284L312 112Z" fill="${G}" stroke="${M}" stroke-width="3"/><rect x="164" y="86" width="110" height="14" fill="${C}" opacity=".8"/><path d="M216 76V40" stroke="${C}" stroke-width="3"/><ellipse cx="216" cy="38" rx="22" ry="5" fill="none" stroke="${Y}" stroke-width="3"/><path d="M120 146V172H170M296 146V172H346" stroke="${Y}" stroke-width="5" fill="none"/><path d="M28 124H372" stroke="${M}" stroke-width="3"/><rect x="355" y="112" width="14" height="6" fill="${Y}`};
 const $=id=>document.getElementById(id);
 const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const full=k=>`<svg viewBox="0 0 400 200">${S+V[k]}</svg>`;
