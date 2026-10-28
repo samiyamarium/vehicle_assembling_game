@@ -62,9 +62,10 @@ img,svg{max-width:100%}
     <div class="board" id="board"></div>
   </div>
   <div class="card"><div class="mut">Parts tray</div><div class="tray" id="tray"></div></div>
+  <button id="fin" onclick="end(vi,((Date.now()-t0)/1000).toFixed(1))">End &amp; Get Certificate</button>
 </div>
 
-<div id="over" class="card hide"><h2 style="color:#ff2255">SYSTEM TIMEOUT</h2><p id="ovt"></p><button onclick="location.reload()">Reboot</button></div>
+<div id="over" class="card hide"><h2 id="oh" style="color:#ff2255">SYSTEM TIMEOUT</h2><p id="ovt"></p><button id="gc" onclick="cert()">Generate Certificate</button><br><br><button onclick="location.reload()">Play Again</button></div>
 
 <div id="win" class="hide">
   <div class="cert">
@@ -100,7 +101,7 @@ function beep(f,d=.1,t='square'){try{const c=ctx(),o=c.createOscillator(),g=c.cr
 function clap(){try{const c=ctx();for(let n=0;n<45;n++){const t=c.currentTime+n*.09+Math.random()*.06,len=c.sampleRate*.05,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=1200+Math.random()*1800;const g=c.createGain();g.gain.value=.5+Math.random()*.5;s.connect(f).connect(g).connect(c.destination);s.start(t)}}catch(e){}}
 let order,vi,slots,sel,left,timer,t0,pname,tray;
 $('go').onclick=()=>{pname=$('name').value.trim()||'Champion';ctx();order=sh(Object.keys(V));vi=0;t0=Date.now();$('start').classList.add('hide');$('game').classList.remove('hide');load();timer=setInterval(tick,250)};
-function tick(){left=Math.max(0,120-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/120*100+'%';if(left<20)$('fill').style.background='#ff2255';if(left<=0){clearInterval(timer);if(vi>=1){cert(vi,'120.0');return}$('game').classList.add('hide');$('over').classList.remove('hide');$('ovt').textContent='Vehicles completed: '+vi+' of 6. Try again!';beep(120,.5,'sawtooth')}}
+function tick(){left=Math.max(0,120-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/120*100+'%';if(left<20)$('fill').style.background='#ff2255';if(left<=0)end(vi,'120.0',true)}
 function load(){const k=order[vi];slots=Array(8).fill(null);sel=null;$('vn').textContent=k;$('prog').textContent=(vi+1)+'/6';$('ref').innerHTML=full(k);draw(sh([0,1,2,3,4,5,6,7]))}
 function draw(t){if(t)tray=t;const k=order[vi];
 $('board').innerHTML='';slots.forEach((v,i)=>{const d=document.createElement('div');d.className='slot';d.innerHTML=v===null?i+1:part(k,v);d.onclick=()=>place(i,d);$('board').appendChild(d)});
@@ -109,6 +110,8 @@ function place(i,el){if(sel===null||slots[i]!==null)return;
 if(sel===i){slots[i]=sel;tray=tray.filter(p=>p!==sel);sel=null;beep(760);draw();
 if(slots.every(v=>v!==null)){setTimeout(()=>{beep(980,.2,'sine');vi++;if(vi>=6)finish();else load()},450)}}
 else{el.classList.add('shake');beep(160,.15,'sawtooth')}}
-function finish(){clearInterval(timer);cert(6,((Date.now()-t0)/1000).toFixed(1))}
-function cert(n,s){$('game').classList.add('hide');$('win').classList.remove('hide');$('cn').textContent=pname;$('cv').textContent=n===6?'all 6 cyber vehicles':(n===1?'1 cyber vehicle':n+' cyber vehicles');$('cp').textContent=n*8;$('ct').textContent=s;$('rk').textContent=['','Cyber Rookie','Rising Technician','Rising Technician','Elite Engineer','Elite Engineer','Cyber Assembly Champion'][n];clap()}
+function finish(){end(6,((Date.now()-t0)/1000).toFixed(1))}
+let R={n:0,s:'0'};
+function end(n,s,to){clearInterval(timer);R={n,s};$('game').classList.add('hide');$('over').classList.remove('hide');$('oh').textContent=n===6?'MISSION COMPLETE':(to?'SYSTEM TIMEOUT':'RUN ENDED');$('oh').style.color=n===6?'#39ff14':'#ff2255';$('ovt').textContent='Vehicles completed: '+n+' of 6 · Time: '+s+'s';$('gc').style.display=n>=1?'':'none';beep(n===6?980:120,.4,n===6?'sine':'sawtooth')}
+function cert(){const n=R.n,s=R.s;$('over').classList.add('hide');$('win').classList.remove('hide');$('cn').textContent=pname;$('cv').textContent=n===6?'all 6 cyber vehicles':(n===1?'1 cyber vehicle':n+' cyber vehicles');$('cp').textContent=n*8;$('ct').textContent=s;$('rk').textContent=['','Cyber Rookie','Rising Technician','Rising Technician','Elite Engineer','Elite Engineer','Cyber Assembly Champion'][n];clap()}
 </script></body></html>
