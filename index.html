@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>CYBER Vehicle Assembly</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04060f;--card:#0a1024;--tx:#d8f6ff;--mut:#6f8bb3;--cy:#00f0ff;--mg:#ff2bd6;--yl:#fcee0a;--gr:#39ff14;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--tx);font-family:Orbitron,"Segoe UI",system-ui,sans-serif;text-align:center;min-height:100vh;
+background:linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px) 0 0/32px 32px,linear-gradient(90deg,rgba(255,43,214,.05) 1px,transparent 1px) 0 0/32px 32px,radial-gradient(circle at 50% 0,#14204a,var(--bg) 60%)}
+.row{display:flex;gap:10px;align-items:flex-start}.row .card{flex:0 0 38%;margin:0;padding:8px}.row .board{flex:1}
+.wrap{max-width:640px;margin:0 auto;padding:14px}
+h1{font-size:1.25rem;margin:8px 0;letter-spacing:3px;color:var(--cy);text-shadow:0 0 10px var(--cy),0 0 24px var(--mg)}
+h1 span{color:var(--mg)}
+.card{background:var(--card);border:1px solid var(--cy);border-radius:4px;padding:12px;margin:10px 0;box-shadow:0 0 12px rgba(0,240,255,.25),inset 0 0 20px rgba(0,240,255,.05);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+button{background:transparent;color:var(--cy);border:2px solid var(--cy);padding:12px 26px;font:700 .95rem Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 12px var(--cy),inset 0 0 12px rgba(0,240,255,.3)}
+button:hover{background:var(--cy);color:#000}
+input{padding:10px;border:1px solid var(--mg);background:#000;color:var(--yl);font:600 1rem Orbitron,sans-serif;width:75%;text-align:center;outline:none;box-shadow:0 0 8px var(--mg)}
+.hud{display:flex;justify-content:space-between;font-weight:700;margin-top:6px;font-size:.95rem}
+#vn{color:var(--mg);text-shadow:0 0 8px var(--mg)}#tm{color:var(--yl);text-shadow:0 0 8px var(--yl)}
+.bar{height:8px;background:#111a3a;margin:6px 0;border:1px solid var(--cy)}
+#fill{height:100%;width:100%;background:var(--gr);box-shadow:0 0 10px var(--gr);transition:width .25s linear,background .3s}
+.ref{width:100%;margin:6px auto 0;border:1px dashed var(--mg);box-shadow:0 0 14px rgba(255,43,214,.4)}
+.ref svg,.pc svg{display:block;width:100%;height:auto}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--cy);padding:3px;box-shadow:0 0 14px var(--cy)}
+.slot{aspect-ratio:1;background:#060b1c;cursor:pointer;overflow:hidden;font-size:1rem;color:#27406e;display:flex;align-items:center;justify-content:center}
+.slot:hover{background:#0c1838}
+.tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:90px}
+.pc{width:calc(25% - 6px);aspect-ratio:1;border:2px solid #2a4a8a;overflow:hidden;cursor:pointer;background:#060b1c}
+.pc.sel{border-color:var(--yl);transform:scale(1.08);box-shadow:0 0 14px var(--yl)}
+.shake{animation:sh .3s;outline:2px solid #ff2255}@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.hide{display:none}.mut{color:var(--mut);font-size:.75rem;letter-spacing:1px;text-transform:uppercase}
+p{font-size:.85rem;line-height:1.6;font-family:system-ui,sans-serif}
+.cert{background:linear-gradient(135deg,#0a1230,#16062e);border:3px solid var(--cy);padding:22px 14px;box-shadow:0 0 22px var(--cy),0 0 40px rgba(255,43,214,.4),inset 0 0 30px rgba(0,240,255,.15);outline:2px solid var(--mg);outline-offset:-10px}
+.cert h2{font-size:1.15rem;margin:6px 0;letter-spacing:3px;color:var(--cy);text-shadow:0 0 10px var(--cy)}
+.nm{font-family:"Dancing Script","Brush Script MT",cursive;font-size:2.2rem;color:var(--yl);text-shadow:0 0 10px var(--yl);border-bottom:1px solid var(--mg);display:inline-block;padding:0 16px;margin:8px 0}
+.sig{font-family:"Dancing Script","Brush Script MT",cursive;font-size:2rem;margin-top:12px;color:var(--mg);text-shadow:0 0 8px var(--mg)}
+.dis{font-size:.65rem;font-style:italic;margin-top:16px;color:var(--mut);border-top:1px solid #2a3a6a;padding-top:8px;font-family:system-ui,sans-serif}
+</style></head><body><div class="wrap">
+<h1>CYBER<span>//</span>ASSEMBLY</h1>
+
+<div id="start" class="card">
+  <p>Assemble <b style="color:var(--mg)">6 modern vehicles</b>, each split into <b style="color:var(--mg)">8 parts</b>, before the <b style="color:var(--yl)">60-second</b> clock hits zero.</p>
+  <p class="mut">Tap a part, then tap its slot. Use the hologram reference. Parts and vehicle order are randomized every run.</p>
+  <input id="name" placeholder="ENTER NAME" maxlength="24"><br><br>
+  <button id="go">Initiate</button>
+</div>
+
+<div id="game" class="hide">
+  <div class="hud"><span id="vn">HYPERCAR</span><span id="prog">1/6</span><span id="tm">60s</span></div>
+  <div class="bar"><div id="fill"></div></div>
+  <div class="row">
+    <div class="card"><div class="mut">Reference</div><div class="ref" id="ref"></div></div>
+    <div class="board" id="board"></div>
+  </div>
+  <div class="card"><div class="mut">Parts tray</div><div class="tray" id="tray"></div></div>
+</div>
+
+<div id="over" class="card hide"><h2 style="color:#ff2255">SYSTEM TIMEOUT</h2><p id="ovt"></p><button onclick="location.reload()">Reboot</button></div>
+
+<div id="win" class="hide">
+  <div class="cert">
+    <div style="font-size:2rem">🏆</div>
+    <h2>CERTIFICATE OF ACHIEVEMENT</h2>
+    <p class="mut">This is proudly presented to</p>
+    <div class="nm" id="cn"></div>
+    <p>for assembling all <b style="color:var(--cy)">6 cyber vehicles</b> (48 parts) in <b style="color:var(--yl)" id="ct"></b> seconds.<br>Rank: Cyber Assembly Champion</p>
+    <div class="sig">Samiya</div>
+    <div class="mut">Certified by Samiya</div>
+    <div class="dis">Disclaimer: This certificate is not real, for dummy purpose only.</div>
+  </div>
+  <br><button onclick="location.reload()">Play Again</button>
+</div>
+</div>
+<script>
+const S='<rect width="400" height="200" fill="#070c20"/><path d="M0 40H400M0 80H400M0 120H400M0 160H400M50 0V200M100 0V200M150 0V200M200 0V200M250 0V200M300 0V200M350 0V200" stroke="#13204a" stroke-width="1"/><rect y="176" width="400" height="24" fill="#0b1a3d"/><path d="M0 176H400" stroke="#00f0ff" stroke-width="2"/>';
+const C='#00f0ff',M='#ff2bd6',Y='#fcee0a',B='#111a3a',G='#0e2a5a';
+const wheel=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#05070f" stroke="${M}" stroke-width="5"/><circle cx="${x}" cy="${y}" r="${r*.45}" fill="${C}"/><path d="M${x-r*.8} ${y}H${x+r*.8}M${x} ${y-r*.8}V${y+r*.8}" stroke="#05070f" stroke-width="3"/>`;
+const V={
+HYPERCAR:`<path d="M25 148 L25 128 L60 118 L135 102 L172 70 Q186 62 215 62 L265 64 Q292 70 306 98 L370 112 Q388 118 388 136 L388 148Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M178 74 L152 98 L296 98 Q284 72 262 68 L215 66Z" fill="${G}" stroke="${C}" stroke-width="2"/><path d="M40 128H380" stroke="${M}" stroke-width="3"/><path d="M215 66V98" stroke="${C}"/><rect x="360" y="114" width="26" height="6" fill="${Y}"/><rect x="25" y="118" width="16" height="6" fill="${M}"/><path d="M130 104L190 130H300" stroke="${C}" stroke-width="2" fill="none"/>${wheel(110,150,28)}${wheel(305,150,28)}`,
+"E-BUS":`<rect x="20" y="46" width="360" height="106" rx="16" fill="${B}" stroke="${C}" stroke-width="3"/><rect x="34" y="62" width="285" height="38" fill="${G}" stroke="${C}"/><path d="M95 62V100M160 62V100M225 62V100M290 62V100" stroke="${C}"/><rect x="330" y="62" width="40" height="72" fill="${G}" stroke="${C}"/><rect x="110" y="34" width="150" height="12" rx="4" fill="${M}"/><path d="M34 120H370" stroke="${M}" stroke-width="3"/><rect x="34" y="128" width="46" height="20" fill="${Y}" opacity=".85"/><rect x="360" y="136" width="14" height="6" fill="${Y}"/>${wheel(105,152,25)}${wheel(290,152,25)}`,
+SUPERBIKE:`${wheel(92,138,40)}${wheel(312,138,40)}<path d="M92 138L160 100L235 112L312 138M300 96L312 138" stroke="${C}" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M170 88Q230 56 300 90L322 102L286 122L190 120Z" fill="${M}" stroke="${C}" stroke-width="3"/><path d="M110 92L180 84L186 100L108 104Z" fill="${B}" stroke="${C}" stroke-width="3"/><rect x="168" y="120" width="62" height="32" fill="${B}" stroke="${Y}" stroke-width="3"/><path d="M135 124L70 152" stroke="${Y}" stroke-width="6"/><path d="M292 80L322 76" stroke="${C}" stroke-width="5"/><circle cx="322" cy="104" r="8" fill="${Y}"/>`,
+MAGLEV:`<rect y="150" width="400" height="8" fill="${M}"/><path d="M0 158H400" stroke="${C}" stroke-width="2"/><path d="M10 148V92Q10 70 40 66L300 58Q372 62 394 118V148Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M300 70Q352 76 372 112L300 112Z" fill="${G}" stroke="${C}" stroke-width="2"/><rect x="26" y="80" width="64" height="26" fill="${G}" stroke="${C}"/><rect x="104" y="78" width="64" height="26" fill="${G}" stroke="${C}"/><rect x="182" y="76" width="64" height="26" fill="${G}" stroke="${C}"/><path d="M10 122H392" stroke="${M}" stroke-width="4"/><path d="M96 70V148M174 68V148M252 66V148" stroke="${C}" stroke-width="1.5"/><rect x="380" y="124" width="12" height="6" fill="${Y}"/><rect x="40" y="140" width="320" height="6" fill="${Y}" opacity=".7"/>`,
+"STEALTH JET":`<path d="M190 96L292 96L150 24L118 24Z M190 114L292 114L150 186L118 186Z" fill="#1b2a6b" stroke="${M}" stroke-width="3"/><path d="M42 102L92 96L62 46L34 46Z" fill="#1b2a6b" stroke="${M}" stroke-width="3"/><path d="M20 105L130 92L300 88Q380 95 390 105Q380 115 300 120L130 118Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M318 97Q350 94 364 103L318 103Z" fill="${C}"/><path d="M60 105H300" stroke="${M}" stroke-width="2"/><ellipse cx="108" cy="82" rx="26" ry="7" fill="${B}" stroke="${Y}" stroke-width="2"/><ellipse cx="108" cy="128" rx="26" ry="7" fill="${B}" stroke="${Y}" stroke-width="2"/><circle cx="18" cy="105" r="9" fill="${Y}"/><path d="M0 105H10" stroke="${Y}" stroke-width="3"/>`,
+HYDROFOIL:`<rect y="146" width="400" height="54" fill="#09285a"/><path d="M0 150Q20 142 40 150T80 150T120 150T160 150T200 150T240 150T280 150T320 150T360 150T400 150" stroke="${C}" stroke-width="2" fill="none"/><path d="M28 112H372L346 146H60Z" fill="${B}" stroke="${C}" stroke-width="3"/><path d="M118 112L150 76H284L312 112Z" fill="${G}" stroke="${M}" stroke-width="3"/><rect x="164" y="86" width="110" height="14" fill="${C}" opacity=".8"/><path d="M216 76V40" stroke="${C}" stroke-width="3"/><ellipse cx="216" cy="38" rx="22" ry="5" fill="none" stroke="${Y}" stroke-width="3"/><path d="M120 146V172H170M296 146V172H346" stroke="${Y}" stroke-width="5" fill="none"/><path d="M28 124H372" stroke="${M}" stroke-width="3"/><rect x="355" y="112" width="14" height="6" fill="${Y}"/>`};
+const $=id=>document.getElementById(id);
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const full=k=>`<svg viewBox="0 0 400 200">${S+V[k]}</svg>`;
+const part=(k,i)=>`<svg viewBox="${(i%4)*100} ${(i>>2)*100} 100 100">${S+V[k]}</svg>`;
+let AC;const ctx=()=>AC||(AC=new (window.AudioContext||window.webkitAudioContext)());
+function beep(f,d=.1,t='square'){try{const c=ctx(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.type=t;g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
+function clap(){try{const c=ctx();for(let n=0;n<45;n++){const t=c.currentTime+n*.09+Math.random()*.06,len=c.sampleRate*.05,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=1200+Math.random()*1800;const g=c.createGain();g.gain.value=.5+Math.random()*.5;s.connect(f).connect(g).connect(c.destination);s.start(t)}}catch(e){}}
+let order,vi,slots,sel,left,timer,t0,pname,tray;
+$('go').onclick=()=>{pname=$('name').value.trim()||'Champion';ctx();order=sh(Object.keys(V));vi=0;t0=Date.now();$('start').classList.add('hide');$('game').classList.remove('hide');load();timer=setInterval(tick,250)};
+function tick(){left=Math.max(0,60-(Date.now()-t0)/1000);$('tm').textContent=Math.ceil(left)+'s';$('fill').style.width=left/60*100+'%';if(left<15)$('fill').style.background='#ff2255';if(left<=0){clearInterval(timer);$('game').classList.add('hide');$('over').classList.remove('hide');$('ovt').textContent='Vehicles completed: '+vi+' of 6. Try again!';beep(120,.5,'sawtooth')}}
+function load(){const k=order[vi];slots=Array(8).fill(null);sel=null;$('vn').textContent=k;$('prog').textContent=(vi+1)+'/6';$('ref').innerHTML=full(k);draw(sh([0,1,2,3,4,5,6,7]))}
+function draw(t){if(t)tray=t;const k=order[vi];
+$('board').innerHTML='';slots.forEach((v,i)=>{const d=document.createElement('div');d.className='slot';d.innerHTML=v===null?i+1:part(k,v);d.onclick=()=>place(i,d);$('board').appendChild(d)});
+$('tray').innerHTML='';tray.forEach(p=>{const d=document.createElement('div');d.className='pc'+(sel===p?' sel':'');d.innerHTML=part(k,p);d.onclick=()=>{sel=p;beep(500,.05);draw()};$('tray').appendChild(d)})}
+function place(i,el){if(sel===null||slots[i]!==null)return;
+if(sel===i){slots[i]=sel;tray=tray.filter(p=>p!==sel);sel=null;beep(760);draw();
+if(slots.every(v=>v!==null)){setTimeout(()=>{beep(980,.2,'sine');vi++;if(vi>=6)finish();else load()},450)}}
+else{el.classList.add('shake');beep(160,.15,'sawtooth')}}
+function finish(){clearInterval(timer);const s=((Date.now()-t0)/1000).toFixed(1);$('game').classList.add('hide');$('win').classList.remove('hide');$('cn').textContent=pname;$('ct').textContent=s;clap()}
+</script></body></html>
